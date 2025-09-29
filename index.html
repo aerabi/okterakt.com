@@ -1,116 +1,372 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Okterakt</title>
-    <meta name="description" content="Okterakt: Expanding Learning into New Dimensions. Workshops, security resources, and technical publishing.">
-    <link rel="icon" href="/favicon.ico" type="image/x-icon">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Okterakt — Cloud-Native Security Publishing & Training</title>
+    <meta name="description" content="Okterakt helps engineering and security teams secure Docker & Kubernetes at scale with practical books, workshops, and consulting. Bulk orders available." />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Okterakt — Cloud-Native Security Publishing & Training" />
+    <meta property="og:description" content="Practical books, workshops, and consulting for Docker & Kubernetes security. Bulk orders available." />
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content="https://okterakt.com" />
+
+    <link rel="icon" href="/favicon.ico" type="image/x-icon" />
+
     <style>
-        /* Reset & Base Styles */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: Arial, Helvetica, sans-serif;
+        /* Reset & Base */
+        *, *::before, *::after { box-sizing: border-box; }
+        :root {
+            --bg1:#0d3b66; --bg2:#f95738;
+            --text:#ffffff; --muted:#e8eef6; --soft:#ffffff1a;
+            --card:#0f2742; --accent:#ffd166;
+            --ok-blue:#0d3b66; --ok-orange:#f95738;
+            --ok-green:#06d6a0;
         }
-        body {
-            background: linear-gradient(135deg, #0d3b66, #f95738);
-            color: #fff;
-            text-align: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            padding: 20px;
-        }
+        html, body { margin:0; padding:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial, Helvetica, sans-serif; color:var(--text); background: linear-gradient(135deg, var(--bg1), var(--bg2)); }
+        a { color: #fff; text-decoration: none; }
+        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+        img { max-width: 100%; height: auto; }
+        .container { width: 100%; max-width: 1100px; margin: 0 auto; padding: 24px; }
+        .section { padding: 56px 0; }
+        .center { text-align: center; }
 
-        /* Hero Section */
-        .hero h1 {
-            font-size: 2.5rem;
-            margin-bottom: 10px;
+        /* Header / Hero */
+        header { padding: 18px 0; }
+        .brand { display:flex; align-items:center; gap:10px; font-weight: 800; letter-spacing: .2px; }
+        .brand .logo {
+            width: 36px; height: 36px; border-radius: 8px;
+            background: conic-gradient(from 120deg, var(--ok-orange), var(--ok-blue));
+            border: 2px solid #ffffff44;
         }
-        .hero p {
-            font-size: 1.2rem;
-            margin-bottom: 30px;
-            color: #f0f0f0;
+        nav { display:flex; gap:16px; align-items:center; }
+        .nav-wrap { display:flex; justify-content:space-between; align-items:center; gap:16px; }
+        .btn, .btn-outline {
+            display:inline-flex; align-items:center; justify-content:center;
+            padding: 12px 18px; border-radius: 10px; font-weight: 700; border: 1px solid #ffffff33; transition: .2s ease;
         }
+        .btn { background: #ffffff1a; }
+        .btn:hover { background: #ffffff2b; transform: translateY(-1px); }
+        .btn-outline { background: transparent; border-color:#ffffff55; }
+        .btn-outline:hover { background:#ffffff1a; }
 
-        /* Buttons */
-        .links {
-            display: flex;
-            gap: 15px;
-            margin-bottom: 40px;
-            flex-wrap: wrap;
-        }
-        .links a {
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.3);
-            padding: 12px 25px;
-            border-radius: 8px;
-            color: #fff;
-            text-decoration: none;
-            transition: 0.3s ease;
-            font-weight: bold;
-        }
-        .links a:hover {
-            background: rgba(255,255,255,0.2);
-        }
+        .hero { text-align:center; padding: 48px 0 10px; }
+        .hero h1 { font-size: clamp(2rem, 4vw, 3rem); margin: 6px 0 12px; }
+        .hero p { color: var(--muted); font-size: clamp(1.05rem, 2vw, 1.2rem); max-width: 850px; margin: 0 auto 22px; line-height: 1.5; }
+        .cta-row { display:flex; gap:12px; flex-wrap:wrap; justify-content:center; margin-top: 10px; }
 
-        /* Okterakt Verlag */
-        .verlag {
-            max-width: 600px;
-            margin: 0 auto 50px;
-            font-size: 1rem;
-            line-height: 1.6;
+        /* Pill badges */
+        .pills { display:flex; gap:10px; flex-wrap:wrap; justify-content:center; margin: 18px 0 0; }
+        .pill { background: var(--soft); border:1px solid #ffffff33; padding: 8px 12px; border-radius: 999px; font-size: .9rem; }
+
+        /* Cards / Sections */
+        .grid { display:grid; gap: 18px; }
+        @media(min-width: 700px) { .grid-3 { grid-template-columns: repeat(3, 1fr); } .grid-2 { grid-template-columns: repeat(2, 1fr); } }
+        .card {
+            background: #00000022; border: 1px solid #ffffff29; border-radius: 14px; padding: 20px;
+            backdrop-filter: blur(6px);
         }
+        .card h3 { margin: 0 0 8px; font-size: 1.15rem; }
+        .muted { color: #e9f0f9cc; }
+        .divider { height:1px; background: #ffffff29; margin: 18px 0; }
+
+        /* List with icons */
+        .list { list-style:none; padding:0; margin:0; display:grid; gap: 10px; }
+        .li { display:flex; gap:10px; align-items:flex-start; }
+        .li .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); margin-top: 8px; flex-shrink:0; }
+
+        /* Logos row (trust) */
+        .logos { display:flex; flex-wrap:wrap; gap:18px; justify-content:center; align-items:center; opacity:.9; }
+        .logo-pill { padding:8px 12px; background:#ffffff10; border:1px solid #ffffff33; border-radius:999px; font-weight:600; font-size:.95rem; }
+
+        /* Contact form */
+        form { display:grid; gap:12px; }
+        label { text-align:left; font-weight:600; }
+        input, textarea, select {
+            background:#0b2340; color:#fff; border: 1px solid #ffffff33; border-radius:10px; padding:12px; width:100%;
+        }
+        textarea { min-height: 120px; resize: vertical; }
+        .note { font-size:.9rem; color:#e9f0f9cc; }
+        .success { background: #06d6a020; border: 1px solid #06d6a0; color:#fff; padding:10px 12px; border-radius:10px; }
 
         /* Footer */
-        footer {
-            font-size: 0.9rem;
-            color: #ccc;
-        }
-        footer a {
-            color: #ccc;
-            text-decoration: none;
-            margin: 0 5px;
-        }
-        footer a:hover {
-            text-decoration: underline;
-        }
+        footer { padding:28px 0; border-top: 1px solid #ffffff29; color:#e9f0f9cc; font-size:.95rem; }
+        footer a { color:#e9f0f9cc; text-decoration: underline dotted; }
+
+        /* Section headings */
+        h2 { font-size: clamp(1.4rem, 3vw, 1.8rem); margin: 0 0 12px; }
+        .sub { color: var(--muted); margin: 0 0 18px; }
     </style>
+
+    <!-- Optional structured data (tweak as needed) -->
+    <script type="application/ld+json">
+        {
+            "@context":"https://schema.org",
+            "@type":"Organization",
+            "name":"Okterakt",
+            "url":"https://okterakt.com",
+            "sameAs":["https://dockersecurity.io","https://okterakt.de"],
+            "logo":"https://okterakt.com/favicon.ico",
+            "description":"Publishing and education for Docker & Kubernetes security: books, workshops, corporate training and bulk orders."
+        }
+    </script>
 </head>
 <body>
-<!-- Hero Section -->
-<div class="hero">
-    <h1>Okterakt</h1>
-    <p>Expanding Learning into New Dimensions</p>
-</div>
 
-<!-- Links -->
-<div class="links">
-    <a href="https://okterakt.de" target="_blank">Workshops → Okterakt.de</a>
-    <a href="https://dockersecurity.io" target="_blank">Book → DockerSecurity.io</a>
-</div>
+<!-- Header -->
+<header>
+    <div class="container nav-wrap" role="navigation" aria-label="Main">
+        <div class="brand" aria-label="Okterakt">
+            <div class="logo" aria-hidden="true"></div>
+            <span>Okterakt</span>
+        </div>
+        <nav>
+            <a class="btn-outline" href="#offerings">Offerings</a>
+            <a class="btn-outline" href="#bulk">Bulk Orders</a>
+            <a class="btn-outline" href="#about">About</a>
+            <a class="btn-outline" href="#contact">Contact</a>
+        </nav>
+    </div>
+</header>
 
-<!-- Okterakt Verlag -->
-<div class="verlag">
+<!-- Hero -->
+<section class="hero container">
+    <h1>Empowering Teams to Secure Cloud-Native Software</h1>
     <p>
-        <strong>Okterakt Verlag</strong> is the publishing arm of Okterakt, dedicated to creating world-class
-        technical books and resources. Our first title,
-        <em>Docker and Kubernetes Security</em>, empowers teams to secure their software
-        supply chain and containerized environments.
+        Okterakt publishes practical resources and delivers hands-on learning for Docker &amp; Kubernetes security.
+        Use our book and workshops to upskill engineers, reduce supply-chain risk, and standardize secure practices across teams.
     </p>
-</div>
+    <div class="cta-row" role="group" aria-label="Primary actions">
+        <a class="btn" href="https://dockersecurity.io" target="_blank" rel="noopener">📘 Explore the Book</a>
+        <a class="btn" href="#bulk">💼 Request Bulk Quote</a>
+        <a class="btn-outline" href="https://okterakt.de" target="_blank" rel="noopener">🛠️ Workshops (German)</a>
+    </div>
+
+    <div class="pills" aria-label="Key capabilities">
+        <span class="pill">SBOMs &amp; Attestations</span>
+        <span class="pill">Supply-Chain Security</span>
+        <span class="pill">Runtime &amp; Cluster Hardening</span>
+        <span class="pill">Policy as Code</span>
+    </div>
+</section>
+
+<!-- Trust signals -->
+<section class="section container center" aria-labelledby="trusted-by">
+    <h2 id="trusted-by">As seen in the cloud-native community</h2>
+    <p class="sub">Community leadership and real-world experience in DevOps &amp; security.</p>
+    <div class="logos" aria-label="Community affiliations">
+        <div class="logo-pill">Docker Captain</div>
+        <div class="logo-pill">CNCF Organizer</div>
+        <div class="logo-pill">WeAreDevelopers</div>
+        <div class="logo-pill">DevOps Meetups</div>
+    </div>
+</section>
+
+<!-- Offerings -->
+<section id="offerings" class="section container" aria-labelledby="offerings-title">
+    <h2 id="offerings-title" class="center">What We Offer</h2>
+    <p class="sub center">Practical materials your teams will actually use.</p>
+
+    <div class="grid grid-3">
+        <div class="card">
+            <h3>Book: Docker &amp; Kubernetes Security</h3>
+            <p class="muted">A hands-on guide for securing images, pipelines, and clusters. Includes real-world checklists and workflows for SBOMs, attestations, and runtime protection.</p>
+            <div class="divider"></div>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Print &amp; eBook formats</span></li>
+                <li class="li"><span class="dot"></span><span>Team license options</span></li>
+                <li class="li"><span class="dot"></span><span>Bulk discounts (10+)</span></li>
+            </ul>
+            <div class="divider"></div>
+            <a class="btn" href="https://dockersecurity.io" target="_blank" rel="noopener" aria-label="Open the book site">Visit book site →</a>
+        </div>
+
+        <div class="card">
+            <h3>Workshops &amp; Training</h3>
+            <p class="muted">Live, hands-on sessions tailored to your stack. From image signing to admission policies, give your engineers repeatable practices they can apply immediately.</p>
+            <div class="divider"></div>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Half-day or full-day</span></li>
+                <li class="li"><span class="dot"></span><span>Role-specific tracks (Dev, Platform, Sec)</span></li>
+                <li class="li"><span class="dot"></span><span>Exercises &amp; take-home labs</span></li>
+            </ul>
+            <div class="divider"></div>
+            <a class="btn" href="https://okterakt.de" target="_blank" rel="noopener">View workshops →</a>
+        </div>
+
+        <div class="card">
+            <h3>Advisory &amp; Playbooks</h3>
+            <p class="muted">Short, focused engagements to design or review your container security posture and CI/CD supply-chain controls.</p>
+            <div class="divider"></div>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Policy as Code &amp; guardrails</span></li>
+                <li class="li"><span class="dot"></span><span>Golden image / base image strategy</span></li>
+                <li class="li"><span class="dot"></span><span>SBOM &amp; attestation flows</span></li>
+            </ul>
+            <div class="divider"></div>
+            <a class="btn-outline" href="#contact">Ask about advisory →</a>
+        </div>
+    </div>
+</section>
+
+<!-- Bulk Orders -->
+<section id="bulk" class="section container" aria-labelledby="bulk-title">
+    <h2 id="bulk-title" class="center">Bulk Orders for Teams &amp; Programs</h2>
+    <p class="sub center">Equip your engineers with a shared playbook. Discounts start at 10 copies.</p>
+
+    <div class="grid grid-3">
+        <div class="card">
+            <h3>Team Pack</h3>
+            <p class="muted">10–24 copies</p>
+            <div class="divider"></div>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Bulk pricing</span></li>
+                <li class="li"><span class="dot"></span><span>Mix print &amp; eBook</span></li>
+                <li class="li"><span class="dot"></span><span>Optional author Q&amp;A (virtual)</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Department Pack</h3>
+            <p class="muted">25–99 copies</p>
+            <div class="divider"></div>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Deeper discount tiers</span></li>
+                <li class="li"><span class="dot"></span><span>Signed copies on request</span></li>
+                <li class="li"><span class="dot"></span><span>Workshop bundle options</span></li>
+            </ul>
+        </div>
+
+        <div class="card">
+            <h3>Program Pack</h3>
+            <p class="muted">100+ copies</p>
+            <div class="divider"></div>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Best unit pricing</span></li>
+                <li class="li"><span class="dot"></span><span>Custom foreword / note from sponsor</span></li>
+                <li class="li"><span class="dot"></span><span>Learning plan alignment</span></li>
+            </ul>
+        </div>
+    </div>
+
+    <div class="center" style="margin-top:18px;">
+        <a class="btn" href="#contact">Request a bulk quote</a>
+    </div>
+</section>
+
+<!-- Testimonials (placeholder) -->
+<section class="section container" aria-labelledby="testimonials">
+    <h2 id="testimonials" class="center">What engineers say</h2>
+    <p class="sub center">Add real quotes as they come in.</p>
+    <div class="grid grid-3">
+        <div class="card">
+            <p>“Exactly the practical guidance our platform team needed to standardize Kubernetes security.”</p>
+            <div class="divider"></div>
+            <p class="muted">— Platform Lead, SaaS</p>
+        </div>
+        <div class="card">
+            <p>“Clear, actionable, and aligned with how we actually ship software.”</p>
+            <div class="divider"></div>
+            <p class="muted">— Director of Engineering</p>
+        </div>
+        <div class="card">
+            <p>“Great structure for a team read-through and security uplift.”</p>
+            <div class="divider"></div>
+            <p class="muted">— DevSecOps Manager</p>
+        </div>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about" class="section container" aria-labelledby="about-title">
+    <h2 id="about-title" class="center">About Okterakt</h2>
+    <p class="sub center">
+        Okterakt is a publishing and education studio led by Docker Captain and CNCF community organizer Mohammad-Ali A’râbi.
+        We focus on practical, vendor-neutral content that teams can adopt immediately.
+    </p>
+    <div class="grid grid-2">
+        <div class="card">
+            <h3>Our approach</h3>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Hands-on, example-driven material</span></li>
+                <li class="li"><span class="dot"></span><span>Security embedded in the developer workflow</span></li>
+                <li class="li"><span class="dot"></span><span>Aligned with industry practices and community standards</span></li>
+            </ul>
+        </div>
+        <div class="card">
+            <h3>Where we can help</h3>
+            <ul class="list">
+                <li class="li"><span class="dot"></span><span>Team enablement &amp; upskilling</span></li>
+                <li class="li"><span class="dot"></span><span>Policy as code &amp; guardrails</span></li>
+                <li class="li"><span class="dot"></span><span>Supply-chain risk reduction</span></li>
+            </ul>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact" class="section container" aria-labelledby="contact-title">
+    <h2 id="contact-title" class="center">Contact &amp; Quotes</h2>
+    <p class="sub center">Tell us about your team and we’ll reply with pricing and options within 1–2 business days.</p>
+
+    <div class="grid grid-2">
+        <div class="card">
+            <!-- Simple no-backend option: mailto fallback -->
+            <form aria-label="Contact form" action="https://formspree.io/f/your-id" method="POST">
+                <label for="name">Name*</label>
+                <input id="name" name="name" required placeholder="Jane Doe" />
+
+                <label for="email">Work Email*</label>
+                <input id="email" name="email" type="email" required placeholder="jane@company.com" />
+
+                <label for="company">Company*</label>
+                <input id="company" name="company" required placeholder="Acme Corp" />
+
+                <label for="interest">I'm interested in*</label>
+                <select id="interest" name="interest" required>
+                    <option value="">Select…</option>
+                    <option value="bulk">Bulk book order</option>
+                    <option value="workshops">Workshops / training</option>
+                    <option value="advisory">Advisory</option>
+                </select>
+
+                <label for="message">Message</label>
+                <textarea id="message" name="message" placeholder="Team size, preferred format (print/eBook), timelines…"></textarea>
+
+                <input type="hidden" name="_subject" value="Okterakt Inquiry" />
+                <button class="btn" type="submit">Send</button>
+                <p class="note">Prefer email? <a href="mailto:sales@okterakt.com">sales@okterakt.com</a></p>
+            </form>
+        </div>
+
+        <div class="card">
+            <h3>How bulk orders work</h3>
+            <ul class="list" style="margin-top:8px;">
+                <li class="li"><span class="dot"></span><span>Tell us your team size and preferred formats</span></li>
+                <li class="li"><span class="dot"></span><span>We confirm pricing &amp; shipping options</span></li>
+                <li class="li"><span class="dot"></span><span>Optional: author Q&amp;A or workshop bundle</span></li>
+                <li class="li"><span class="dot"></span><span>Invoicing available for corporate finance</span></li>
+            </ul>
+            <div class="divider"></div>
+            <div class="success">Tip: Add your procurement contact for faster onboarding.</div>
+        </div>
+    </div>
+</section>
 
 <!-- Footer -->
 <footer>
-<!--    <p>-->
-<!--        <a href="#">Imprint</a> |-->
-<!--        <a href="#">Privacy Policy</a>-->
-<!--    </p>-->
-    <p>© 2025 Okterakt</p>
+    <div class="container">
+        <div class="center" style="margin-bottom:10px;">
+            © 2025 Okterakt • <a href="/imprint">Imprint</a> • <a href="/privacy">Privacy</a>
+        </div>
+        <div class="center">
+            <a href="mailto:sales@okterakt.com">sales@okterakt.com</a> •
+            <a href="https://dockersecurity.io" target="_blank" rel="noopener">dockersecurity.io</a> •
+            <a href="https://okterakt.de" target="_blank" rel="noopener">okterakt.de</a>
+        </div>
+    </div>
 </footer>
+
 </body>
 </html>
